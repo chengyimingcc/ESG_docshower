@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HiESG-AutoFill · ESG报告填报平台方案</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:"PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;color:#1a2332;background:#f4f7fa;line-height:1.7;font-size:15px;-webkit-font-smoothing:antialiased}
+
+/* ========== HERO ========== */
+.hero{position:relative;background:linear-gradient(135deg,#0d4a7a 0%,#0e7a67 60%,#1a73e8 100%);color:#fff;padding:6rem 2rem 5rem;overflow:hidden;text-align:center}
+.hero::before{content:"";position:absolute;top:-50%;right:-20%;width:600px;height:600px;background:radial-gradient(circle,rgba(255,255,255,.08) 0%,transparent 70%);border-radius:50%}
+.hero::after{content:"";position:absolute;bottom:-30%;left:-10%;width:400px;height:400px;background:radial-gradient(circle,rgba(255,255,255,.06) 0%,transparent 70%);border-radius:50%}
+.hero-inner{position:relative;z-index:1;max-width:900px;margin:0 auto}
+.hero-kicker{font-size:12px;letter-spacing:4px;opacity:.7;margin-bottom:1.2rem;font-weight:600}
+.hero h1{font-size:2.8rem;font-weight:700;margin-bottom:1.2rem;line-height:1.3}
+.hero-sub{font-size:1.1rem;opacity:.85;max-width:640px;margin:0 auto 3rem;line-height:1.8}
+.stats{display:flex;justify-content:center;gap:2rem;flex-wrap:wrap;margin-top:2rem}
+.stat{background:rgba(255,255,255,.12);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.2);border-radius:12px;padding:1.5rem 2.2rem;min-width:150px}
+.stat-num{font-size:2.6rem;font-weight:700;line-height:1}
+.stat-label{font-size:13px;opacity:.85;margin-top:.6rem}
+
+/* ========== SECTION ========== */
+.section{padding:5rem 2rem;max-width:1000px;margin:0 auto}
+.section-head{text-align:center;margin-bottom:3rem}
+.section-tag{display:inline-block;font-size:11px;letter-spacing:3px;font-weight:600;color:#1a73e8;background:#e6f0ff;border-radius:4px;padding:4px 12px;margin-bottom:1rem}
+.section-title{font-size:1.8rem;font-weight:700;margin-bottom:.7rem;color:#1a2332}
+.section-desc{color:#6b7a8f;max-width:600px;margin:0 auto;font-size:14px}
+
+/* ========== 一比一复刻 ========== */
+.rebuild-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start}
+.rebuild-card{background:#fff;border:1px solid #e8eef5;border-radius:12px;padding:1.5rem;box-shadow:0 2px 12px rgba(0,0,0,.04)}
+.rebuild-card h4{font-size:13px;font-weight:600;padding-bottom:.8rem;border-bottom:1px solid #f0f3f8;margin-bottom:1rem}
+.rebuild-card .badge{display:inline-block;font-size:11px;padding:2px 8px;border-radius:4px;margin-bottom:1rem}
+.badge-blue{background:#e6f0ff;color:#1a73e8}
+.badge-green{background:#e3f2ee;color:#0e7a67}
+.dim-list{list-style:none;margin-bottom:1rem}
+.dim-list li{display:flex;align-items:center;gap:8px;padding:6px 0;font-size:13px;color:#3a4a5f;border-bottom:1px dashed #f5f7fa}
+.dim-list li:last-child{border-bottom:none}
+.dim-list .check{width:18px;height:18px;border-radius:50%;background:#e3f2ee;color:#0e7a67;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
+.rebuild-data{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1.2rem}
+.rebuild-stat{background:#f8fafc;border-radius:8px;padding:1rem;text-align:center}
+.rebuild-stat .n{font-size:1.5rem;font-weight:700;color:#1a2332}
+.rebuild-stat .l{font-size:11px;color:#8899aa;margin-top:2px}
+
+/* ========== 自动填报流程 ========== */
+.flow-svg-wrap{background:#fff;border:1px solid #e8eef5;border-radius:12px;padding:2rem;box-shadow:0 2px 12px rgba(0,0,0,.04);margin-top:1.5rem;overflow-x:auto}
+.flow-step{display:flex;align-items:center;justify-content:center}
+.flow-svg{max-width:100%}
+.flow-legend{display:flex;justify-content:center;gap:1.5rem;margin-top:1.5rem;flex-wrap:wrap}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:12px;color:#5a6a7f}
+.legend-dot{width:8px;height:8px;border-radius:50%}
+
+/* ========== AI 对话 ========== */
+.chat-container{max-width:640px;margin:2rem auto 0;background:#fff;border:1px solid #e8eef5;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.06)}
+.chat-header{background:linear-gradient(135deg,#1a73e8,#0e7a67);color:#fff;padding:1rem 1.2rem;display:flex;align-items:center;gap:10px}
+.chat-avatar{width:36px;height:36px;background:rgba(255,255,255,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px}
+.chat-info{font-size:13px;font-weight:600}
+.chat-info small{display:block;font-size:11px;opacity:.8;font-weight:400}
+.chat-body{padding:1.5rem 1.2rem;display:flex;flex-direction:column;gap:1rem;min-height:360px}
+.bubble{max-width:82%;padding:10px 14px;border-radius:14px;font-size:13px;line-height:1.7;opacity:0;transform:translateY(8px);animation:bubbleIn .5s ease forwards}
+.bubble-user{align-self:flex-end;background:#1a73e8;color:#fff;border-bottom-right-radius:4px}
+.bubble-ai{align-self:flex-start;background:#f5f7fa;color:#1a2332;border-bottom-left-radius:4px}
+.bubble-ai small{color:#8899aa;font-size:11px;display:block;margin-top:4px}
+.bubble-checks{margin-top:8px;padding-left:0;list-style:none}
+.bubble-checks li{padding:3px 0;font-size:12px;color:#3a4a5f}
+.bubble-checks li::before{content:"✓";color:#0e7a67;font-weight:700;margin-right:6px}
+.btn-mock{display:inline-block;margin-top:10px;padding:6px 16px;background:#0e7a67;color:#fff;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid #0e7a67}
+.bubble-final{background:linear-gradient(135deg,#e3f2ee,#f5f7fa)!important}
+.bubble-final strong{color:#0e7a67}
+@keyframes bubbleIn{to{opacity:1;transform:none}}
+
+.chat-timeline{display:flex;justify-content:center;gap:1.5rem;margin-top:1.5rem;padding:1rem;background:#f8fafc;border-radius:10px;font-size:12px;color:#5a6a7f}
+.timeline-item{display:flex;align-items:center;gap:5px}
+.timeline-item .t-num{color:#1a73e8;font-weight:700}
+
+/* ========== AI 架构 ========== */
+.arch-box{background:#fff;border:1px solid #e8eef5;border-radius:12px;padding:2rem;box-shadow:0 2px 12px rgba(0,0,0,.04);margin-top:1.5rem;max-width:560px;margin-left:auto;margin-right:auto}
+.arch-layer{display:flex;align-items:center;gap:1.2rem;padding:12px 16px;border-radius:8px;margin-bottom:8px}
+.arch-layer:last-child{margin-bottom:0}
+.arch-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.arch-text h5{font-size:13px;font-weight:600;color:#1a2332}
+.arch-text p{font-size:11px;color:#8899aa;margin-top:2px}
+.arch-arrow{text-align:center;color:#ccc;font-size:14px;margin:4px 0}
+.arch-layer:nth-child(1){background:#e6f0ff}
+.arch-layer:nth-child(3){background:#e3f2ee}
+.arch-layer:nth-child(5){background:#fbeee4}
+.arch-layer:nth-child(7){background:#f0f0ff}
+.arch-layer:nth-child(9){background:#f5f7fa}
+.arch-layer:nth-child(11){background:#e6f0ff}
+.arch-layer:nth-child(13){background:#e3f2ee}
+
+/* ========== FOOTER ========== */
+.footer{background:#0d1b2a;color:#8899aa;text-align:center;padding:2.5rem 2rem;font-size:12px}
+.footer strong{color:#fff}
+</style>
+</head>
+<body>
+
+<!-- ============================================================ -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-kicker">ESG REPORT · AUTOMATED FILING</div>
+    <h1>把 200+ 项手工填写<br>变成一句对话完成</h1>
+    <div class="hero-sub">HiESG-AutoFill 平台 —— 一比一复刻 HiESG 报告填报网站，实现自动填报 + AI 助手，让企业填报 ESG 报告从数天缩短到几分钟。</div>
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-num">179</div>
+        <div class="stat-label">覆盖全部披露项</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">7</div>
+        <div class="stat-label">完整维度结构</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">30s</div>
+        <div class="stat-label">单页自动填报</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section class="section" id="s1">
+  <div class="section-head">
+    <div class="section-tag">01 · 一比一复刻</div>
+    <h2 class="section-title">HiESG 报告填报网站，完全复刻</h2>
+    <p class="section-desc">从目录结构到每个披露项的展示与填写，与 HiESG 原站内容、结构、交互完全一致。所有 179 个披露项的填报指引、参考模板、优秀案例均已采集入库。</p>
+  </div>
+
+  <div class="rebuild-grid">
+    <div class="rebuild-card">
+      <h4>HiESG 原站</h4>
+      <span class="badge badge-blue">hiesg.com</span>
+      <ul class="dim-list">
+        <li><span class="check">✓</span> 报告编制说明</li>
+        <li><span class="check">✓</span> 议题重要性评估</li>
+        <li><span class="check">✓</span> 公司 ESG 治理安排</li>
+        <li><span class="check">✓</span> 环境维度议题（8 项）</li>
+        <li><span class="check">✓</span> 社会维度议题（11 项）</li>
+        <li><span class="check">✓</span> 可持续发展治理（2 项）</li>
+        <li><span class="check">✓</span> ESG 数据表与附注</li>
+      </ul>
+      <div class="rebuild-data">
+        <div class="rebuild-stat"><div class="n">28</div><div class="l">议题</div></div>
+        <div class="rebuild-stat"><div class="n">179</div><div class="l">披露项</div></div>
+      </div>
+    </div>
+    <div class="rebuild-card">
+      <h4>我们的复刻平台</h4>
+      <span class="badge badge-green">本地平台</span>
+      <ul class="dim-list">
+        <li><span class="check">✓</span> 报告编制说明</li>
+        <li><span class="check">✓</span> 议题重要性评估</li>
+        <li><span class="check">✓</span> 公司 ESG 治理安排</li>
+        <li><span class="check">✓</span> 环境维度议题（8 项）</li>
+        <li><span class="check">✓</span> 社会维度议题（11 项）</li>
+        <li><span class="check">✓</span> 可持续发展治理（2 项）</li>
+        <li><span class="check">✓</span> ESG 数据表与附注</li>
+      </ul>
+      <div class="rebuild-data">
+        <div class="rebuild-stat"><div class="n">28</div><div class="l">议题</div></div>
+        <div class="rebuild-stat"><div class="n">179</div><div class="l">披露项</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section class="section" id="s2" style="background:#fff">
+  <div class="section-head">
+    <div class="section-tag">02 · 自动填报</div>
+    <h2 class="section-title">用户填完内容，一键自动写入 HiESG</h2>
+    <p class="section-desc">用户在平台完成填报后，后端自动调度浏览器，将 179 项内容逐页写入 HiESG 真实网站，保存后回读校验，全程无需人工操作。</p>
+  </div>
+
+  <div class="flow-svg-wrap">
+    <svg class="flow-svg" viewBox="0 0 900 120" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="g-blue" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#1a73e8"/><stop offset="100%" stop-color="#0e7a67"/>
+        </linearGradient>
+        <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="#1a73e8"/>
+        </marker>
+      </defs>
+
+      <g font-family="PingFang SC,sans-serif" font-size="11" fill="#fff" text-anchor="middle">
+        <rect x="10" y="40" width="100" height="40" rx="8" fill="#1a73e8"/>
+        <text x="60" y="63">用户填写</text>
+
+        <rect x="140" y="40" width="100" height="40" rx="8" fill="#1a73e8"/>
+        <text x="190" y="63">触发自动填报</text>
+
+        <rect x="270" y="40" width="100" height="40" rx="8" fill="#0e7a67"/>
+        <text x="320" y="63">headless 浏览器</text>
+
+        <rect x="400" y="40" width="100" height="40" rx="8" fill="#0e7a67"/>
+        <text x="450" y="63">写入 HiESG</text>
+
+        <rect x="530" y="40" width="100" height="40" rx="8" fill="#0e7a67"/>
+        <text x="580" y="63">保存 + 回读</text>
+
+        <rect x="660" y="40" width="100" height="40" rx="8" fill="#0e7a67"/>
+        <text x="710" y="63">校验通过 ✓</text>
+
+        <rect x="790" y="40" width="100" height="40" rx="8" fill="#1a73e8"/>
+        <text x="840" y="63">推送结果</text>
+      </g>
+
+      <g stroke="#1a73e8" stroke-width="2" fill="none">
+        <line x1="110" y1="60" x2="137" y2="60" marker-end="url(#arrow)"/>
+        <line x1="240" y1="60" x2="267" y2="60" marker-end="url(#arrow)"/>
+        <line x1="370" y1="60" x2="397" y2="60" marker-end="url(#arrow)"/>
+        <line x1="500" y1="60" x2="527" y2="60" marker-end="url(#arrow)"/>
+        <line x1="630" y1="60" x2="657" y2="60" marker-end="url(#arrow)"/>
+        <line x1="760" y1="60" x2="787" y2="60" marker-end="url(#arrow)"/>
+      </g>
+
+      <g font-size="9" fill="#8899aa" text-anchor="middle">
+        <text x="124" y="100">填完 179 项</text>
+        <text x="254" y="100">API 调用</text>
+        <text x="384" y="100">自动启动</text>
+        <text x="514" y="100">逐页写入</text>
+        <text x="644" y="100">保存校验</text>
+        <text x="774" y="100">WebSocket</text>
+      </g>
+    </svg>
+  </div>
+
+  <div class="flow-legend">
+    <div class="legend-item"><span class="legend-dot" style="background:#1a73e8"></span>用户端操作</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#0e7a67"></span>服务端自动执行</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#b3541e"></span>结果回传用户</div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section class="section" id="s3">
+  <div class="section-head">
+    <div class="section-tag">03 · AI 助手 · 未来方案</div>
+    <h2 class="section-title">一句对话，自动完成填报</h2>
+    <p class="section-desc">下一步，把自动填报升级为 AI 助手。用户用自然语言对话，AI 理解意图、调用对应模型、自动完成填报并回读校验，全程对话式交互。</p>
+  </div>
+
+  <div class="chat-container">
+    <div class="chat-header">
+      <div class="chat-avatar">🤖</div>
+      <div class="chat-info">ESG AI 助手<small>在线 · 已加载第 8 页</small></div>
+    </div>
+    <div class="chat-body">
+      <div class="bubble bubble-user" style="animation-delay:.3s">
+        帮我填完第 8 页环境合规管理的所有内容
+      </div>
+      <div class="bubble bubble-ai" style="animation-delay:1s">
+        正在分析第 8 页 &middot; 环境合规管理，共识别到 <strong>7 项</strong>披露内容：
+        <ul class="bubble-checks">
+          <li>环境合规政策法规遵守情况</li>
+          <li>治理结构和内部制度</li>
+          <li>战略规划与策略方法</li>
+          <li>管理流程和措施</li>
+          <li>目标与指标设定</li>
+          <li>重大环境事件说明</li>
+          <li>行政处罚情况说明</li>
+        </ul>
+        <small>已基于您公司的事实库和填报指引生成初稿，内容仅供参考，是否写入 HiESG？</small>
+        <span class="btn-mock">确认写入 HiESG</span>
+      </div>
+      <div class="bubble bubble-user" style="animation-delay:1.8s">
+        写入
+      </div>
+      <div class="bubble bubble-ai bubble-final" style="animation-delay:2.5s">
+        自动填报完成 <strong>✓</strong>
+        <ul class="bubble-checks">
+          <li>已处理第 8 页</li>
+          <li>写入成功：7 / 7 项</li>
+          <li>回读校验：全部通过 ✓</li>
+          <li>用时：23 秒</li>
+        </ul>
+      </div>
+    </div>
+    <div class="chat-timeline">
+      <div class="timeline-item"><span class="t-num">1</span> 意图识别</div>
+      <div class="timeline-item"><span class="t-num">2</span> 任务拆解</div>
+      <div class="timeline-item"><span class="t-num">3</span> 模型生成</div>
+      <div class="timeline-item"><span class="t-num">4</span> 自动写入</div>
+      <div class="timeline-item"><span class="t-num">5</span> 回读校验</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section class="section" id="s4" style="background:#fff">
+  <div class="section-head">
+    <div class="section-tag">04 · AI 助手架构</div>
+    <h2 class="section-title">用户说人话，AI 自动干活</h2>
+    <p class="section-desc">AI 助手在用户对话与自动填报之间做了一层"翻译"：理解自然语言、拆分为具体任务、路由到对应模型、调度浏览器执行、最后用自然语言回复用户。</p>
+  </div>
+
+  <div class="arch-box">
+    <div class="arch-layer">
+      <div class="arch-icon" style="background:#e6f0ff;color:#1a73e8">💬</div>
+      <div class="arch-text">
+        <h5>用户自然语言</h5>
+        <p>"帮我填完第 8 页"</p>
+      </div>
+    </div>
+    <div class="arch-arrow">↓</div>
+    <div class="arch-layer">
+      <div class="arch-icon" style="background:#e3f2ee;color:#0e7a67">🧠</div>
+      <div class="arch-text">
+        <h5>意图识别层</h5>
+        <p>理解"填完" = 生成内容 + 写入网站</p>
+      </div>
+    </div>
+    <div class="arch-arrow">↓</div>
+    <div class="arch-layer">
+      <div class="arch-icon" style="background:#fbeee4;color:#b3541e">📋</div>
+      <div class="arch-text">
+        <h5>任务拆解</h5>
+        <p>第 8 页 = 7 项披露项 × 内容生成</p>
+      </div>
+    </div>
+    <div class="arch-arrow">↓</div>
+    <div class="arch-layer">
+      <div class="arch-icon" style="background:#f0f0ff;color:#7c3aed">🔀</div>
+      <div class="arch-text">
+        <h5>模型路由</h5>
+        <p>正文 → gpt-5.6 / 图表 → gpt-image-2</p>
+      </div>
+    </div>
+    <div class="arch-arrow">↓</div>
+    <div class="arch-layer">
+      <div class="arch-icon" style="background:#f5f7fa;color:#6b7a8f">🖥️</div>
+      <div class="arch-text">
+        <h5>自动执行</h5>
+        <p>调度 headless 浏览器写入 HiESG</p>
+      </div>
+    </div>
+    <div class="arch-arrow">↓</div>
+    <div class="arch-layer">
+      <div class="arch-icon" style="background:#e3f2ee;color:#0e7a67">✅</div>
+      <div class="arch-text">
+        <h5>回读校验</h5>
+        <p>确认写入内容与实际一致</p>
+      </div>
+    </div>
+    <div class="arch-arrow">↓</div>
+    <div class="arch-layer">
+      <div class="arch-icon" style="background:#e6f0ff;color:#1a73e8">💬</div>
+      <div class="arch-text">
+        <h5>AI 回复用户</h5>
+        <p>"已完成，7/7 项通过校验 ✓"</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section class="footer">
+  <p><strong>HiESG-AutoFill 平台</strong> · ESG 报告填报自动化 · AI 助手</p>
+  <p style="margin-top:.5rem">179 项全覆盖 · 多模型适配 · 一键自动填报 · 对话式 AI 助手</p>
+</section>
+
+</body>
+</html>
