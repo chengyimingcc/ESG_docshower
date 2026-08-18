@@ -95,6 +95,47 @@ body{font-family:"PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;color:#1a
 /* ========== FOOTER ========== */
 .footer{background:#0d1b2a;color:#8899aa;text-align:center;padding:2.5rem 2rem;font-size:12px}
 .footer strong{color:#fff}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 768px) {
+  .hero{padding:3.5rem 1.2rem 3rem}
+  .hero h1{font-size:1.8rem}
+  .hero-sub{font-size:0.95rem;max-width:100%}
+  .stats{gap:0.8rem}
+  .stat{padding:1rem 1.2rem;min-width:auto;flex:1;text-align:center}
+  .stat-num{font-size:1.8rem}
+  .stat-label{font-size:11px;margin-top:4px}
+
+  .section{padding:3rem 1.2rem}
+  .section-title{font-size:1.35rem}
+  .section-desc{font-size:13px}
+
+  .rebuild-grid{grid-template-columns:1fr;gap:1.2rem}
+  .rebuild-data{grid-template-columns:1fr 1fr}
+
+  .flow-svg-wrap{padding:1rem;overflow-x:auto}
+  .flow-legend{flex-direction:column;align-items:flex-start;gap:0.5rem}
+
+  .chat-container{margin:1.5rem 0}
+  .chat-body{padding:1rem 0.8rem;gap:0.7rem}
+  .bubble{max-width:92%;font-size:12px;padding:8px 12px}
+  .bubble-checks li{font-size:11px}
+  .chat-timeline{flex-wrap:wrap;gap:0.8rem;padding:0.8rem}
+
+  .arch-box{padding:1.2rem}
+  .arch-layer{padding:10px 12px}
+  .arch-icon{width:32px;height:32px;font-size:14px}
+  .arch-text h5{font-size:12px}
+  .arch-text p{font-size:10px}
+}
+
+@media (max-width: 480px) {
+  .hero h1{font-size:1.5rem;line-height:1.4}
+  .stat-num{font-size:1.5rem}
+  .stat-label{font-size:10px}
+  .rebuild-stat .n{font-size:1.2rem}
+  .chat-header{flex-direction:column;text-align:center;gap:4px;padding:0.8rem}
+}
 </style>
 </head>
 <body>
@@ -295,7 +336,7 @@ body{font-family:"PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;color:#1a
 <section class="section" id="s4" style="background:#fff">
   <div class="section-head">
     <div class="section-tag">04 · AI 助手架构</div>
-    <h2 class="section-title">用户说人话，AI 自动干活</h2>
+    <h2 class="section-title">用对话的方式，完成您的工作</h2>
     <p class="section-desc">AI 助手在用户对话与自动填报之间做了一层"翻译"：理解自然语言、拆分为具体任务、路由到对应模型、调度浏览器执行、最后用自然语言回复用户。</p>
   </div>
 
