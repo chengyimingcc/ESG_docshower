@@ -34,14 +34,31 @@ body{font-family:"PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;color:#1a
 .dim-list{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:6px 1.5rem;margin-bottom:1.2rem}
 .dim-list li{display:flex;align-items:center;gap:8px;padding:6px 0;font-size:13px;color:#3a4a5f}
 .dim-list .check{width:18px;height:18px;border-radius:50%;background:#e3f2ee;color:#0e7a67;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
-.cover-data{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:1.5rem;padding:1rem;background:#f8fafc;border-radius:8px}
+.cover-data{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:0;padding:1rem;background:#f8fafc;border-radius:8px}
 .cover-stat{text-align:center}
 .cover-stat .n{font-size:1.5rem;font-weight:700;color:#1a2332}
 .cover-stat .l{font-size:11px;color:#8899aa;margin-top:2px}
-.adv-title{font-size:12px;font-weight:700;color:#0e7a67;letter-spacing:1px;margin-bottom:8px;padding-top:1rem;border-top:1px solid #f0f3f8}
-.adv-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.adv-item{display:flex;align-items:center;gap:6px;padding:5px 0;font-size:12px;color:#3a4a5f}
-.adv-item .dot{width:6px;height:6px;border-radius:50%;background:#1a73e8;flex-shrink:0}
+
+.innovations{background:#f5f7fa;padding:5rem 2rem;max-width:1080px;margin:0 auto}
+.innovations-head{text-align:center;margin-bottom:3rem}
+.innovations-tag{display:inline-block;font-size:11px;letter-spacing:3px;font-weight:600;color:#0e7a67;background:#e3f2ee;border-radius:4px;padding:4px 12px;margin-bottom:1rem}
+.innovations-title{font-size:1.8rem;font-weight:700;color:#1a2332;margin-bottom:.7rem}
+.innovations-desc{color:#6b7a8f;max-width:640px;margin:0 auto;font-size:14px}
+.innov-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.innov-card{background:#fff;border:1px solid #e8eef5;border-radius:12px;padding:1.8rem 2rem;box-shadow:0 2px 12px rgba(0,0,0,.04);transition:transform .25s ease,box-shadow .25s ease;display:flex;flex-direction:column;gap:1rem}
+.innov-card:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,.08)}
+.innov-card-head{display:flex;align-items:center;gap:12px}
+.innov-icon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.innov-num{font-size:11px;font-weight:700;color:#999;letter-spacing:1px}
+.innov-card-title{font-size:16px;font-weight:700;color:#1a2332;line-height:1.4;margin-top:2px}
+.innov-card-desc{font-size:13px;color:#6b7a8f;line-height:1.7}
+
+@media (max-width: 768px) {
+  .innovations{padding:3rem 1.2rem}
+  .innovations-title{font-size:1.35rem}
+  .innov-grid{grid-template-columns:1fr;gap:1rem}
+  .innov-card{padding:1.4rem 1.5rem}
+}
 
 .flow-svg-wrap{background:#fff;border:1px solid #e8eef5;border-radius:12px;padding:2rem;box-shadow:0 2px 12px rgba(0,0,0,.04);margin-top:1.5rem;overflow-x:auto}
 .flow-svg{max-width:100%}
@@ -139,6 +156,76 @@ body{font-family:"PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;color:#1a
   </div>
 </section>
 
+<section class="innovations" id="innovations">
+  <div class="innovations-head">
+    <div class="innovations-tag">CORE CAPABILITY · DIFFERENTIATION</div>
+    <h2 class="innovations-title">核心能力与差异化优势</h2>
+    <p class="innovations-desc">从 "我们做了什么技术" 到 "这能帮您解决什么 ESG 专业问题" —— 六大核心能力，让专业填报不再是负担。</p>
+  </div>
+  <div class="innov-grid">
+    <div class="innov-card">
+      <div class="innov-card-head">
+        <div class="innov-icon" style="background:#e3f2ee;color:#0e7a67">&#9993;</div>
+        <div>
+          <div class="innov-num">CAPABILITY 01</div>
+          <div class="innov-card-title">对标权威标准的专业内容生成</div>
+        </div>
+      </div>
+      <p class="innov-card-desc">内置上交所 / 深交所 ESG 披露指引、GRI 标准、ISSB 准则等权威框架，AI 大模型基于行业标杆报告与专业数据库持续学习，确保每项披露内容符合监管口径与行业惯例。</p>
+    </div>
+    <div class="innov-card">
+      <div class="innov-card-head">
+        <div class="innov-icon" style="background:#fbeee4;color:#b3541e">&#9888;</div>
+        <div>
+          <div class="innov-num">CAPABILITY 02</div>
+          <div class="innov-card-title">智能合规审查与内容校验</div>
+        </div>
+      </div>
+      <p class="innov-card-desc">自动检测披露遗漏、数据口径不一致、表述不合规等问题，生成合规审查报告，确保填报内容通过监管要求，降低披露风险。</p>
+    </div>
+    <div class="innov-card">
+      <div class="innov-card-head">
+        <div class="innov-icon" style="background:#f0f0ff;color:#7c3aed">&#10070;</div>
+        <div>
+          <div class="innov-num">CAPABILITY 03</div>
+          <div class="innov-card-title">多模型智能适配与专业调优</div>
+        </div>
+      </div>
+      <p class="innov-card-desc">根据不同披露议题自动匹配最优大模型，结合 ESG 专业语料进行微调，在环境绩效、社会责任、公司治理等维度均能输出专业级内容。</p>
+    </div>
+    <div class="innov-card">
+      <div class="innov-card-head">
+        <div class="innov-icon" style="background:#e6f0ff;color:#1a73e8">&#128101;</div>
+        <div>
+          <div class="innov-num">CAPABILITY 04</div>
+          <div class="innov-card-title">分级权限与协同审核机制</div>
+        </div>
+      </div>
+      <p class="innov-card-desc">支持填报员、部门负责人、合规审核员等多级角色分离，实现 "填报 — 审核 — 批准" 全流程留痕，满足企业内控与审计要求。</p>
+    </div>
+    <div class="innov-card">
+      <div class="innov-card-head">
+        <div class="innov-icon" style="background:#e3f2ee;color:#0e7a67">&#9881;</div>
+        <div>
+          <div class="innov-num">CAPABILITY 05</div>
+          <div class="innov-card-title">全流程自动化填报与结果核验</div>
+        </div>
+      </div>
+      <p class="innov-card-desc">一键将 179 项披露内容写入目标填报平台，写入后自动回读校验确保数据准确一致，全程可追溯，无需人工逐页操作。</p>
+    </div>
+    <div class="innov-card">
+      <div class="innov-card-head">
+        <div class="innov-icon" style="background:#e6f0ff;color:#1a73e8">&#128172;</div>
+        <div>
+          <div class="innov-num">CAPABILITY 06</div>
+          <div class="innov-card-title">对话式 ESG 专业助手</div>
+        </div>
+      </div>
+      <p class="innov-card-desc">自然语言交互即可完成指定页面 / 议题的填报，AI 助手基于公司事实库与披露指引生成初稿，用户确认后写入，兼顾效率与专业可控。</p>
+    </div>
+  </div>
+</section>
+
 <section class="section" id="s1">
   <div class="section-head">
     <div class="section-tag">01 · 行业覆盖</div>
@@ -178,17 +265,6 @@ body{font-family:"PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;color:#1a
       <div class="cover-stat"><div class="n">7</div><div class="l">维度</div></div>
       <div class="cover-stat"><div class="n">28</div><div class="l">议题</div></div>
       <div class="cover-stat"><div class="n">179</div><div class="l">披露项</div></div>
-    </div>
-    <div class="adv-title">我们的创新点</div>
-    <div class="adv-grid">
-      <div class="adv-item"><span class="dot"></span> AI 自动生成为 179 项</div>
-      <div class="adv-item"><span class="dot"></span> 一键写入目标填报平台</div>
-      <div class="adv-item"><span class="dot"></span> 多模型热切换</div>
-      <div class="adv-item"><span class="dot"></span> 实时进度推送</div>
-      <div class="adv-item"><span class="dot"></span> 用量计费统计</div>
-      <div class="adv-item"><span class="dot"></span> 对话式 AI 助手</div>
-      <div class="adv-item"><span class="dot"></span> 多用户隔离</div>
-      <div class="adv-item"><span class="dot"></span> 保存回读校验</div>
     </div>
   </div>
 </section>
